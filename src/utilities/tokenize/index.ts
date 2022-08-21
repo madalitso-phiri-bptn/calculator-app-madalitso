@@ -1,12 +1,16 @@
 import { inputAdornmentClasses } from "@mui/material";
 
 export function tokenize(input: string) {
-  var results = [];
-  var tokenRegExp = /\s*([A-Za-z]+|[0-9]+|\S)\s*/g;
+  var m,
+  tokens = [],
+  rex = /(^|[(\/*+-])(-(?:\d*\.)?\d+)|[()\/*+-]|(?:\d*\.)?\d+/g
 
-  var m;
-  while ((m = tokenRegExp.exec(input)) !== null) results.push(m[1]);
-  return results;
+while ( m = rex.exec( input ) ) {
+  if ( m[1] ) {
+      tokens.push( m[1], m[2] );
+  } else {
+      tokens.push( m[0] );
+  }
 }
-
-const input = ''
+return tokens
+}

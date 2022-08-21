@@ -5,7 +5,6 @@ import { tokenize } from "../utilities/tokenize";
 export interface Operation {
   operation_label: string;
 }
-export const ALLOWED_MATH_INPUT_OPERATORS = ["/", "*", "+", "-"];
 export const useCalculator = () => {
   const calculator_keys = [
     { label: "7", value: "7" },
@@ -29,33 +28,6 @@ export const useCalculator = () => {
     { label: "-", value: "-" },
     { label: "+", value: "+" },
   ];
-
-  const Compute = (values: string[]) => {
-    console.log("__safeMathCompute:", values);
-    const safeCounter = 10;
-    let counter = 0;
-    let unCalculatedInputA = [];
-    let unCalculatedInputB = [];
-    let ans = "";
-    let mathExpression = values;
-    ALLOWED_MATH_INPUT_OPERATORS.map((i) => {
-      while (mathExpression.includes(i) && counter < safeCounter) {
-        const indexOfOperator = mathExpression.indexOf(i);
-        // get the expression with a given operator e.g 4/2
-        const result = AppMathLib[i](
-          mathExpression[indexOfOperator - 1],
-          mathExpression[indexOfOperator + 1]
-        );
-
-        ans = result.toString();
-        unCalculatedInputA = mathExpression.slice(0, indexOfOperator - 1);
-        unCalculatedInputB = mathExpression.slice(indexOfOperator + 2);
-        mathExpression = [...unCalculatedInputA, ans, ...unCalculatedInputB];
-        counter++;
-      }
-    });
-    return mathExpression[0];
-  };
 
   const [previous_operation, set_previous_operation] =
     useState<Operation | null>(null);
@@ -82,8 +54,6 @@ export const useCalculator = () => {
   const evaluate = () => {
     if (calculator_input) {
       console.log(tokenize(calculator_input));
-      console.log(Compute(tokenize(calculator_input)));
-      set_calculator_input(Compute(tokenize(calculator_input)))
     }
   };
 
@@ -98,6 +68,5 @@ export const useCalculator = () => {
     set_previous_operation,
     del_character,
     evaluate,
-    Compute,
   };
 };
