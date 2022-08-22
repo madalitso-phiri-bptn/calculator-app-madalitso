@@ -4,8 +4,8 @@ import { Operation } from "../../../hooks/useCalculator";
 interface CalculatorContextInterface {
   calculator_input: string;
   current_total: string;
-  previous_operation: Operation | null;
-  set_previous_operation: Dispatch<SetStateAction<Operation | null>>;
+  previous_operation: string;
+  set_previous_operation: Dispatch<SetStateAction<string>>;
   set_calculator_input: Dispatch<SetStateAction<string>>;
   set_current_total: Dispatch<SetStateAction<string>>;
   evaluate: () => void;

@@ -13,8 +13,7 @@ export interface Operation {
   operation_label: string;
 }
 export const useCalculator = () => {
-  const [previous_operation, set_previous_operation] =
-    useState<Operation | null>(null);
+  const [previous_operation, set_previous_operation] = useState<string>("");
   const [current_total, set_current_total] = useState<string>("");
   const [calculator_input, set_calculator_input] = useState<string>("");
   const append_input = (value: string) => {
@@ -90,7 +89,9 @@ export const useCalculator = () => {
   const evaluate = () => {
     if (calculator_input) {
       console.log(tokenize(calculator_input));
-      const RPN = toRPN(tokenize(calculator_input));
+      const tokenized_operation = tokenize(calculator_input);
+      set_previous_operation(tokenized_operation.join(""));
+      const RPN = toRPN(tokenized_operation);
       console.log("rpn", RPN);
       const result = evaluate_rpn(RPN);
       if (result) set_calculator_input(result.toString());

@@ -15,9 +15,7 @@ export const CalculatorOperationLabel = () => {
   const { previous_operation } = React.useContext(CalculatorContext);
   return (
     <Label>
-      {previous_operation?.operation_label
-        ? previous_operation?.operation_label
-        : ""}
+      {previous_operation}
     </Label>
   );
 };

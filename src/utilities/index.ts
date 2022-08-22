@@ -60,8 +60,8 @@ export const evaluate_rpn = (rpn: (string | number | undefined)[]) => {
 
   for (let scanner = 0; scanner < rpn.length; scanner++) {
     const token = rpn[scanner];
-
-    if (/[+\-/*^]/.test(token as string)) {
+    const identified_token = identify_token(token?.toString())
+    if (identified_token && identified_token.type === Tokens.OPERATOR ) {
       stack.push(operate(token as string, stack));
       continue;
     }
@@ -100,6 +100,7 @@ export const toRPN = (tokens: (string | number | undefined)[]) => {
     const token = tokens[i];
 
     if (typeof token === "number") {
+      console.log("token is number ", token);
       out.push(token);
       continue;
     }
