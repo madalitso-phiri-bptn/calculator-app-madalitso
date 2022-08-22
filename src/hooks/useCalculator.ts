@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { identify_token, Tokens, vet_tokens } from "../utilities";
+import {
+  evaluate_rpn,
+  identify_token,
+  isFloat,
+  Tokens,
+  toRPN,
+  vet_tokens,
+} from "../utilities";
 import { tokenize } from "../utilities/tokenize";
 
 export interface Operation {
@@ -22,7 +29,7 @@ export const useCalculator = () => {
           calculator_input_array[calculator_input_array.length - 1];
         const last_token = tokenized_array[tokenized_array.length - 1];
         console.log("last_token", last_token);
-        if (last_token.includes(".") || last_char === ".") return prev;
+        if (isFloat(last_token) || last_char === ".") return prev;
       } else if (identified_token.type === Tokens.BRACKET) {
         const calculator_input_array = calculator_input.split("");
         const last_char =
@@ -83,6 +90,11 @@ export const useCalculator = () => {
   const evaluate = () => {
     if (calculator_input) {
       console.log(tokenize(calculator_input));
+      const RPN = toRPN(tokenize(calculator_input));
+      console.log("rpn", RPN);
+      const result = evaluate_rpn(RPN);
+      if (result) set_calculator_input(result.toString());
+      console.log(evaluate_rpn(RPN));
     }
   };
 
