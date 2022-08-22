@@ -10,7 +10,7 @@ export const identify_token = (value: string) => {
       return { value: "+", type: Tokens.OPERATOR };
     case "-":
       return { value: "-", type: Tokens.OPERATOR };
-    case "÷" || "/":
+    case "/" :
       return { value: "/", type: Tokens.OPERATOR };
     case "*":
       return { value: "*", type: Tokens.OPERATOR };
@@ -45,67 +45,9 @@ export const vet_tokens = (current_input: string, new_char: string) => {
   } else {
     return false;
   }
-
+};
+export const validate_input = (current_input: string, new_char: string) => {
+  const current_input_array = current_input.split("");
+  const lastchar = current_input_array[current_input_array.length - 1]
 
 };
-
-
-/** __add
- * 
- * @param a string as it may be coming from a textfield 
- * @param b 
- * @returns sum of a and b
- */
- const __add = (a:string,b:string)=>(parseFloat(a)+parseFloat(b))
-
- /**__substract
-  * find the difference of two numbers
-  * 
-  * @param a 
-  * @param b 
-  * @returns float the difference of two numbers
-  */
- const __substract = (a:string,b:string)=>(parseFloat(a)-parseFloat(b))
-
- /** __divide 
-  *  apply division operator on given numbers
-  * @param a 
-  * @param b 
-  * @returns 
-  */
- const __divide = (a:string,b:string)=>(parseFloat(a)/parseFloat(b))
-
- /**__multiply
-  *  apply multiplication on math input
-  * @param a 
-  * @param b 
-  * @returns {Number} resulting value of a*b 
-  */
- const __multiply = (a:string,b:string)=>(parseFloat(a)*parseFloat(b))
-
- /** __fallBackHandler
-  *  Called when you just want to return 0. This is a workaround for the scenario below
-  * const result  = AppMathLib?[question[1]] ? AppMathLib[question[1]:any](question[0],question[2]) : parseFloat(question);
-  * 
-  * @param a 
-  * @param b 
-  * @returns 
-  */
- const __fallBackHandler = (a:string,b:string)=>(parseFloat(a)*parseFloat(b))
-
-//has method for easy access and automation
-const AppMathLib :AppMathLibType= {
-    "+":__add,
-    "-":__substract,
-    "/":__divide,
-    "*":__multiply,
-    undefined:__fallBackHandler
-}
-
-export default AppMathLib
-
-
-
-type AppMathLibType = {
-    [index:string]:(a:string,b:string)=>{}
-}

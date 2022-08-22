@@ -1,7 +1,8 @@
-import React, { FC, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Box } from "@mui/material";
-import { useCalculator } from "../../hooks/useCalculator";
+import { CalculatorContext } from "../../state/context";
+import { calculator_keys } from "../../constants";
 
 const KeyPad = styled.div`
   width: 100%;
@@ -36,21 +37,10 @@ const grid_item = {
   border: 0,
   flex: 1,
 };
-interface KeyPadProps {
-  calculator_keys: (
-    | { label: string; value: string }
-    | { label?: undefined; value?: undefined }
-  )[];
-  append_input: (value: string) => void;
-  del_character: () => void;
-  evaluate: () => void;
-}
-export const CalculatorKeyPad: FC<KeyPadProps> = ({
-  calculator_keys,
-  append_input,
-  del_character,
-  evaluate
-}) => {
+
+export const CalculatorKeyPad = () => {
+  const { append_input, del_character, evaluate } =
+    React.useContext(CalculatorContext);
   return (
     <KeyPad>
       <Box sx={grid_container}>
@@ -62,12 +52,12 @@ export const CalculatorKeyPad: FC<KeyPadProps> = ({
                   <CalculatorButton>{item.label}</CalculatorButton>
                 </Box>
               );
-            }else if(item.value == "="){
-                return (
-                    <Box sx={grid_item} onClick={() => evaluate()}>
-                      <CalculatorButton>{item.label}</CalculatorButton>
-                    </Box>
-                  );
+            } else if (item.value == "=") {
+              return (
+                <Box sx={grid_item} onClick={() => evaluate()}>
+                  <CalculatorButton>{item.label}</CalculatorButton>
+                </Box>
+              );
             }
             return (
               <Box sx={grid_item} onClick={() => append_input(item.value)}>

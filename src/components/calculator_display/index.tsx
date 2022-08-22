@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import HistoryIcon from "@mui/icons-material/History";
 import { motion } from "framer-motion";
-import { FC, SetStateAction, useState } from "react";
+import React, { FC, SetStateAction, useState } from "react";
 import { XIcon } from "@heroicons/react/solid";
 
 import { Box, styled as mui_styled } from "@mui/material";
 import { CalculatorDisplayInput } from "../calculator_display_input";
 import { CalculatorOperationLabel } from "../calculator_operation_label";
 import { Operation } from "../../hooks/useCalculator";
+import { CalculatorContext } from "../../state/context";
 
 export const CloseIcon = styled(XIcon)`
   color: white;
@@ -49,6 +50,8 @@ const CurveLeft = styled.div`
   border-top-right-radius: 30px;
   background-color: transparent;
   box-shadow: 0 -25px 0 0 #ffd33a;
+  outline: 0;
+  border:0;
   width: 50px;
   height: 100px;
   bottom: -100px;
@@ -61,6 +64,8 @@ const CurveRight = styled.div`
   height: 100px;
   background-color: transparent;
   box-shadow: 0 -25px 0 0 #ffd33a;
+  outline: 0;
+  border:0;
   bottom: -100px;
   right: -2rem;
 `;
@@ -93,18 +98,8 @@ const HistoryButton = styled.div`
     right: 1rem;
   }
 `;
-interface CalculatorDisplayProps {
-  previous_operation: Operation | null;
-  calculator_input: string;
-  current_total: string;
-  set_calculator_input: React.Dispatch<SetStateAction<string>>;
-}
-export const CalculatorDisplay: FC<CalculatorDisplayProps> = ({
-  previous_operation,
-  calculator_input,
-  current_total,
-  set_calculator_input,
-}) => {
+
+export const CalculatorDisplay = () => {
   const [history_is_open, set_history_is_open] = useState<boolean>(false);
   const handle_history_toggle = () => {
     set_history_is_open(!history_is_open);
@@ -118,14 +113,8 @@ export const CalculatorDisplay: FC<CalculatorDisplayProps> = ({
         transition={{ type: "tween" }}
       >
         <DisplayInputContainer>
-          <CalculatorOperationLabel
-            label_text={previous_operation?.operation_label}
-          />
-          <CalculatorDisplayInput
-            current_total={current_total}
-            calculator_input={calculator_input}
-            set_calculator_input={set_calculator_input}
-          />
+          <CalculatorOperationLabel />
+          <CalculatorDisplayInput />
         </DisplayInputContainer>
 
         <HistoryButton>

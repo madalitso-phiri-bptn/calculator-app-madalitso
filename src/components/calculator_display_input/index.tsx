@@ -1,6 +1,6 @@
-import React, { FC, SetStateAction, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useCalculator } from "../../hooks/useCalculator";
+import { CalculatorContext } from "../../state/context";
 
 const Input = styled.input`
   border: 0;
@@ -13,21 +13,23 @@ const Input = styled.input`
   text-align: end;
   z-index: 2;
 `;
-export const CalculatorDisplayInput: FC<{
-  calculator_input: string;
-  set_calculator_input: React.Dispatch<SetStateAction<string>>;
-  current_total: string;
-}> = ({ calculator_input, set_calculator_input, current_total }) => {
+export const CalculatorDisplayInput = () => {
+  const { calculator_input, current_total, append_input } =
+    React.useContext(CalculatorContext);
   const input_value =
     calculator_input != ""
       ? calculator_input
       : current_total
       ? current_total
-      : 0;
+      : "";
+
   return (
     <Input
       value={input_value}
-      onChange={(e) => set_calculator_input(e.target.value)}
+      type="text"
+      placeholder="0"
+      pattern={"(^|[(/*+-])(-(?:d*.)?d+)|[()/*+-]|(?:d*.)?d+/g"}
+      onChange={(e) => append_input(e.target.value)}
     />
   );
 };

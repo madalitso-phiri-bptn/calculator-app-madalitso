@@ -1,10 +1,7 @@
 import React, { FC, useState } from "react";
 import styled from "styled-components";
-import { useCalculator } from "../../hooks/useCalculator";
+import { CalculatorContext } from "../../state/context";
 
-interface LabelProps {
-  label_text: string | undefined;
-}
 const Label = styled.p`
   width: 100%;
   font-size: 2rem;
@@ -14,6 +11,13 @@ const Label = styled.p`
   text-align: end;
   z-index: 2;
 `;
-export const CalculatorOperationLabel: FC<LabelProps> = ({ label_text }) => {
-  return <Label>{label_text ? label_text : ""}</Label>;
+export const CalculatorOperationLabel = () => {
+  const { previous_operation } = React.useContext(CalculatorContext);
+  return (
+    <Label>
+      {previous_operation?.operation_label
+        ? previous_operation?.operation_label
+        : ""}
+    </Label>
+  );
 };
