@@ -13,23 +13,41 @@ const Input = styled.input`
   text-align: end;
   z-index: 2;
 `;
+
 export const CalculatorDisplayInput = () => {
-  const { calculator_input, current_total, append_input } =
-    React.useContext(CalculatorContext);
+  const {
+    set_calculator_input,
+    calculator_input,
+    current_total,
+    del_character,
+    append_input,
+  } = React.useContext(CalculatorContext);
   const input_value =
     calculator_input != ""
       ? calculator_input
       : current_total
       ? current_total
       : "";
+  const handle_key_down = (e) => {
+    if (e.keyCode === 8) {
+      e.preventDefault();
+      del_character();
+    }
 
+   
+  };
+
+  const handle_change = (e) => {
+    const input_array = e.target.value.split("");
+    const input = input_array[input_array.length - 1];
+    append_input(input);
+  };
   return (
     <Input
       value={input_value}
-      type="text"
       placeholder="0"
-      pattern={"(^|[(/*+-])(-(?:d*.)?d+)|[()/*+-]|(?:d*.)?d+/g"}
-      onChange={(e) => append_input(e.target.value)}
+      onChange={(e) => handle_change(e)}
+      onKeyDown={handle_key_down}
     />
   );
 };
